@@ -4,991 +4,281 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Sonnet's Argument — Shakespeare, 18 & 130</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --ink: #1a1410;
-    --parchment: #f2e8d5;
-    --parchment-dark: #e8d9bc;
-    --gold: #b8952a;
-    --gold-light: #d4af4a;
-    --rust: #8b3a2a;
-    --cream: #f7f0e3;
-    --muted: #7a6a55;
-    --line: rgba(184,149,42,0.25);
-    --student-bg: rgba(139,58,42,0.08);
-    --student-border: rgba(139,58,42,0.4);
-  }
+:root {
+  --ink: #1a1410;
+  --parchment: #f2e8d5;
+  --gold: #b8952a;
+  --gold-light: #d4af4a;
+  --rust: #8b3a2a;
+  --muted: #7a6a55;
+  --line: rgba(184,149,42,0.22);
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  body {
-    background-color: var(--ink);
-    color: var(--parchment);
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 17px;
-    line-height: 1.7;
-    min-height: 100vh;
-  }
+body {
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  line-height: 1.58;
+}
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.6;
-  }
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 64px 40px 100px;
+}
 
-  .container {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 60px 40px 100px;
-    position: relative;
-    z-index: 1;
-  }
+/* timer */
+.timer-pill {
+  position: fixed;
+  top: 14px;
+  right: 20px;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+}
 
-  /* Progress bar */
-  .progress-bar-wrap {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 2px;
-    background: rgba(255,255,255,0.06);
-    z-index: 100;
-  }
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--rust), var(--gold));
-    width: 0%;
-    transition: width 0.1s linear;
-  }
+/* header */
+.lesson-header {
+  text-align: center;
+  margin-bottom: 70px;
+}
 
-  /* Timer pill */
-  .timer-pill {
-    position: fixed;
-    top: 16px; right: 20px;
-    background: rgba(26,20,16,0.92);
-    border: 1px solid var(--line);
-    padding: 6px 16px;
-    font-family: 'EB Garamond', serif;
-    font-size: 0.82rem;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    text-transform: uppercase;
-    z-index: 100;
-    backdrop-filter: blur(4px);
-  }
+.lesson-label {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
 
-  /* Header */
-  .lesson-header {
-    text-align: center;
-    margin-bottom: 70px;
-    opacity: 0;
-    animation: fadeUp 0.9s ease forwards 0.1s;
-  }
-  .lesson-label {
-    font-size: 11px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 18px;
-  }
-  .lesson-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.4rem, 5vw, 3.8rem);
-    font-weight: 300;
-    line-height: 1.15;
-    color: var(--cream);
-  }
-  .lesson-title em { font-style: italic; color: var(--gold-light); }
-  .gold-rule {
-    width: 80px; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 24px auto;
-  }
-  .lesson-sub {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--muted);
-  }
+.lesson-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.6rem, 5vw, 3.6rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
 
-  /* Sections */
-  .section {
-    margin-bottom: 64px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease forwards;
-  }
-  .section:nth-child(2)  { animation-delay: 0.25s; }
-  .section:nth-child(3)  { animation-delay: 0.35s; }
-  .section:nth-child(4)  { animation-delay: 0.45s; }
-  .section:nth-child(5)  { animation-delay: 0.55s; }
-  .section:nth-child(6)  { animation-delay: 0.65s; }
-  .section:nth-child(7)  { animation-delay: 0.75s; }
-  .section:nth-child(8)  { animation-delay: 0.85s; }
+.lesson-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
 
-  .section-marker {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 22px;
-  }
-  .section-number {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    color: var(--gold);
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .section-line { flex: 1; height: 1px; background: var(--line); }
-  .section-time {
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-  .section-heading {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.85rem;
-    font-weight: 400;
-    color: var(--cream);
-    margin-bottom: 14px;
-    line-height: 1.2;
-  }
-  .section-heading em { color: var(--gold-light); font-style: italic; }
+.gold-rule {
+  width: 70px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 24px auto;
+}
 
-  p { margin-bottom: 14px; color: var(--parchment); font-size: 1rem; }
-  p:last-child { margin-bottom: 0; }
+.lesson-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--muted);
+}
 
-  /* Vocab */
-  .vocab-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 18px 0 6px;
-  }
-  .vocab-chip {
-    border: 1px solid rgba(184,149,42,0.3);
-    padding: 6px 14px;
-    font-size: 0.88rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    color: var(--parchment);
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-  }
-  .vocab-chip:hover, .vocab-chip.active {
-    background: rgba(184,149,42,0.12);
-    border-color: var(--gold);
-    color: var(--cream);
-  }
-  .vocab-def {
-    display: none;
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: #0e0b08;
-    border: 1px solid var(--gold);
-    padding: 10px 14px;
-    font-size: 0.82rem;
-    font-style: normal;
-    color: var(--parchment);
-    white-space: nowrap;
-    z-index: 10;
-    min-width: 210px;
-    text-align: center;
-    line-height: 1.5;
-    pointer-events: none;
-  }
-  .vocab-chip.active .vocab-def { display: block; }
+/* sections */
+.section {
+  margin-bottom: 58px;
+}
 
-  /* Structure grid */
-  .structure-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin: 24px 0;
-  }
-  .structure-card {
-    background: rgba(242,232,213,0.04);
-    border: 1px solid var(--line);
-    border-top: 2px solid var(--gold);
-    padding: 22px 24px;
-  }
-  .structure-card h4 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .structure-card p { font-size: 0.92rem; margin-bottom: 8px; }
-  .rhyme-scheme {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.05rem;
-    font-style: italic;
-    color: var(--gold-light);
-    letter-spacing: 0.08em;
-  }
+.section-marker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
 
-  /* Annotated lines — guided */
-  .sonnet-block {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.05rem;
-    line-height: 2;
-    padding: 4px 0;
-  }
-  .annotated-line {
-    display: block;
-    padding: 7px 12px;
-    margin: 3px 0;
-    cursor: pointer;
-    border-left: 2px solid transparent;
-    transition: all 0.22s ease;
-    border-radius: 2px;
-  }
-  .annotated-line:hover {
-    border-left-color: var(--gold);
-    background: rgba(184,149,42,0.06);
-  }
-  .annotated-line.revealed {
-    border-left-color: var(--gold);
-    background: rgba(184,149,42,0.09);
-  }
-  .line-annotation {
-    display: none;
-    font-style: normal;
-    font-size: 0.84rem;
-    color: var(--gold-light);
-    margin-top: 5px;
-    font-family: 'EB Garamond', serif;
-    padding-left: 8px;
-    border-left: 1px solid rgba(184,149,42,0.35);
-    line-height: 1.55;
-  }
-  .annotated-line.revealed .line-annotation { display: block; }
+.section-number {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
 
-  .stanza-label {
-    display: block;
-    font-style: normal;
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 12px 0 5px;
-    font-family: 'EB Garamond', serif;
-  }
-  .volta-label {
-    display: block;
-    font-style: normal;
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin: 12px 0 5px;
-    font-family: 'EB Garamond', serif;
-  }
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
 
-  .tap-hint {
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-    font-family: 'EB Garamond', serif;
-    font-style: normal;
-  }
+.section-time {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
 
-  /* Comparison table */
-  .compare-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 24px 0;
-    font-size: 0.93rem;
-  }
-  .compare-table th {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: 0.82rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-    padding: 12px 16px;
-    text-align: left;
-    border-bottom: 1px solid var(--line);
-  }
-  .compare-table td {
-    padding: 11px 16px;
-    color: var(--parchment);
-    border-bottom: 1px solid rgba(184,149,42,0.1);
-    vertical-align: top;
-  }
-  .compare-table tr:last-child td { border-bottom: none; }
-  .compare-table td:first-child {
-    color: var(--muted);
-    font-size: 0.85rem;
-    white-space: nowrap;
-    font-style: italic;
-  }
-  .compare-table td.blank {
-    color: rgba(122,106,85,0.4);
-    font-style: italic;
-    font-size: 0.85rem;
-  }
+.section-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  margin-bottom: 14px;
+}
 
-  /* Student annotation area */
-  .student-section {
-    border: 1px solid var(--student-border);
-    background: var(--student-bg);
-    padding: 0;
-    margin: 0;
-  }
-  .student-header {
-    background: rgba(139,58,42,0.15);
-    border-bottom: 1px solid var(--student-border);
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .student-badge {
-    font-size: 0.65rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--rust);
-    font-family: 'EB Garamond', serif;
-    border: 1px solid var(--student-border);
-    padding: 3px 10px;
-    white-space: nowrap;
-  }
-  .student-header p {
-    font-size: 0.88rem;
-    color: var(--parchment);
-    margin: 0;
-    font-style: italic;
-  }
-  .student-body { padding: 24px 26px; }
+.section-heading em {
+  color: var(--gold-light);
+}
 
-  .student-line-wrap {
-    margin: 4px 0;
-    border-bottom: 1px solid rgba(139,58,42,0.12);
-    padding-bottom: 4px;
-  }
-  .student-line-wrap:last-of-type { border-bottom: none; }
+p {
+  margin-bottom: 14px;
+}
 
-  .student-line-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.02rem;
-    color: var(--parchment);
-    display: block;
-    padding: 6px 4px 4px;
-  }
+.structure-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 24px 0;
+}
 
-  textarea.student-input {
-    width: 100%;
-    background: rgba(242,232,213,0.04);
-    border: 1px solid rgba(139,58,42,0.25);
-    border-top: none;
-    color: var(--cream);
-    font-family: 'EB Garamond', serif;
-    font-size: 0.88rem;
-    line-height: 1.55;
-    padding: 8px 12px;
-    resize: vertical;
-    min-height: 44px;
-    outline: none;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  textarea.student-input::placeholder { color: rgba(122,106,85,0.6); font-style: italic; }
-  textarea.student-input:focus {
-    border-color: rgba(139,58,42,0.6);
-    background: rgba(242,232,213,0.07);
-  }
+.structure-card {
+  border: 1px solid var(--line);
+  padding: 20px 22px;
+}
 
-  .annotation-prompt {
-    font-size: 0.75rem;
-    color: var(--muted);
-    font-style: italic;
-    margin: 16px 0 10px;
-    font-family: 'EB Garamond', serif;
-  }
+.structure-card h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
 
-  /* Reveal button for 130 */
-  .reveal-btn {
-    display: inline-block;
-    margin-top: 20px;
-    border: 1px solid var(--line);
-    padding: 9px 22px;
-    font-family: 'EB Garamond', serif;
-    font-size: 0.82rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold);
-    cursor: pointer;
-    transition: all 0.2s;
-    background: transparent;
-  }
-  .reveal-btn:hover {
-    background: rgba(184,149,42,0.1);
-    border-color: var(--gold);
-  }
-  .teacher-notes-130 { display: none; }
-  .teacher-notes-130.visible { display: block; }
+.sonnet-block {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.95;
+}
 
-  /* Task / discussion */
-  .task-box {
-    border: 1px solid rgba(184,149,42,0.35);
-    padding: 26px 28px;
-    margin: 20px 0;
-    position: relative;
-    background: rgba(184,149,42,0.03);
-  }
-  .task-box::before {
-    content: attr(data-label);
-    position: absolute;
-    top: -10px; left: 20px;
-    background: var(--ink);
-    padding: 0 10px;
-    font-size: 0.67rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-family: 'EB Garamond', serif;
-  }
-  .task-box h4 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--cream);
-    margin-bottom: 12px;
-  }
-  .task-box ol, .task-box ul { padding-left: 20px; }
-  .task-box li {
-    margin-bottom: 9px;
-    color: var(--parchment);
-    font-size: 0.95rem;
-  }
-  .task-box li strong { color: var(--gold-light); font-weight: 500; }
+.annotated-line {
+  display: block;
+  padding: 6px 12px;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+}
 
-  /* Discussion prompts */
-  .prompt-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin: 20px 0;
-  }
-  .prompt-card {
-    border: 1px solid var(--line);
-    padding: 18px 20px;
-    background: rgba(255,255,255,0.02);
-    transition: background 0.2s;
-  }
-  .prompt-card:hover { background: rgba(184,149,42,0.05); }
-  .prompt-card p {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.05rem;
-    color: var(--cream);
-    margin-bottom: 8px;
-  }
-  .prompt-card .prompt-tag {
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+.annotated-line:hover {
+  border-left: 2px solid var(--gold);
+  background: rgba(184,149,42,0.1);
+}
 
-  /* Exit */
-  .writing-prompt {
-    background: rgba(242,232,213,0.04);
-    border-left: 3px solid var(--gold);
-    padding: 22px 26px;
-    margin: 20px 0;
-  }
-  .writing-prompt p {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--cream);
-    line-height: 1.6;
-  }
-  .writing-prompt .word-count {
-    font-style: normal;
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-top: 10px;
-    display: block;
-    font-family: 'EB Garamond', serif;
-  }
+.line-annotation {
+  display: none;
+  font-style: normal;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  color: var(--gold-light);
+}
 
-  /* Footer */
-  .lesson-footer {
-    text-align: center;
-    margin-top: 80px;
-    padding-top: 40px;
-    border-top: 1px solid var(--line);
-  }
-  .lesson-footer p {
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+.annotated-line.revealed .line-annotation {
+  display: block;
+}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+footer {
+  text-align: center;
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
 
-  @media (max-width: 640px) {
-    .container { padding: 40px 20px 80px; }
-    .structure-grid, .prompt-grid { grid-template-columns: 1fr; }
-    .lesson-title { font-size: 2rem; }
-    .compare-table { font-size: 0.82rem; }
-    .compare-table td:first-child { white-space: normal; }
-  }
+@media (max-width: 640px) {
+  .container { padding: 40px 20px 80px; }
+  .structure-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-
-<div class="progress-bar-wrap">
-  <div class="progress-bar" id="progressBar"></div>
-</div>
 
 <div class="timer-pill" id="timerPill">40:00</div>
 
 <div class="container">
 
-  <!-- HEADER -->
-  <header class="lesson-header">
-    <div class="lesson-label">Year 12 · C1 / C2 · English Literature</div>
-    <h1 class="lesson-title">The Sonnet's <em>Argument</em></h1>
-    <div class="gold-rule"></div>
-    <p class="lesson-sub">Shakespeare's Sonnets 18 & 130 — form, theme, and rhetoric in collision</p>
-  </header>
+<header class="lesson-header">
+  <div class="lesson-label">Year 12 · English Literature</div>
+  <h1 class="lesson-title">The Sonnet's <em>Argument</em></h1>
+  <div class="gold-rule"></div>
+  <p class="lesson-sub">Shakespeare's Sonnets 18 & 130 — rhetoric, form, and the problem of love</p>
+</header>
 
-  <!-- I. HOOK -->
-  <section class="section">
-    <div class="section-marker">
-      <span class="section-number">I · Hook</span>
-      <span class="section-line"></span>
-      <span class="section-time">3 min</span>
+<section class="section">
+  <div class="section-marker">
+    <span class="section-number">I · Opening</span>
+    <span class="section-line"></span>
+    <span class="section-time">3 min</span>
+  </div>
+  <h2 class="section-heading">What is a love poem for?</h2>
+  <p>Is a love poem meant to elevate, preserve, persuade — or to tell the truth? Shakespeare’s sonnets test each possibility, often in tension with one another.</p>
+</section>
+
+<section class="section">
+  <div class="section-marker">
+    <span class="section-number">II · Form</span>
+    <span class="section-line"></span>
+    <span class="section-time">5 min</span>
+  </div>
+  <h2 class="section-heading">The sonnet as argument</h2>
+  <p>A Shakespearean sonnet unfolds as a structured act of reasoning. Each quatrain develops pressure; the volta reorients the logic; the couplet resolves — or complicates — the claim.</p>
+
+  <div class="structure-grid">
+    <div class="structure-card">
+      <h4>Three Quatrains</h4>
+      <p>Progressive rhetorical movement.</p>
     </div>
-    <h2 class="section-heading">A question before we begin</h2>
-    <p>Shakespeare wrote 154 sonnets. Most of them are love poems. But what does it mean to write a love poem? Is it to flatter, to preserve, to seduce — or to tell the truth?</p>
-    <div class="task-box" data-label="Opening — hold this thought">
-      <h4>Which of these is a more powerful act of love?</h4>
-      <ol>
-        <li>Comparing your beloved to a summer's day — elevating them above nature itself</li>
-        <li>Listing everything about your beloved that isn't perfect — and loving them anyway</li>
-      </ol>
-      <p style="margin-top:12px; font-size:0.88rem; font-style:italic; color:var(--muted);">You'll return to this at the end of the lesson.</p>
+    <div class="structure-card">
+      <h4>Volta + Couplet</h4>
+      <p>Compression and resolution.</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- II. FORM -->
-  <section class="section">
-    <div class="section-marker">
-      <span class="section-number">II · Form</span>
-      <span class="section-line"></span>
-      <span class="section-time">5 min</span>
-    </div>
-    <h2 class="section-heading">The architecture of the sonnet</h2>
-    <p>A Shakespearean sonnet is not a container for feeling — it is a <em>logical structure</em>, an argument with a shape. The form creates expectations that the poem can fulfil, subvert, or turn against itself.</p>
+<section class="section">
+  <div class="section-marker">
+    <span class="section-number">III · Sonnet 18</span>
+    <span class="section-line"></span>
+    <span class="section-time">10 min</span>
+  </div>
+  <h2 class="section-heading">Close reading</h2>
 
-    <div class="structure-grid">
-      <div class="structure-card">
-        <h4>Three Quatrains</h4>
-        <p>14 lines total, in three groups of four. Each quatrain develops, complicates, or extends the central argument — think of them as three moves in a debate.</p>
-        <p class="rhyme-scheme">ABAB · CDCD · EFEF</p>
-      </div>
-      <div class="structure-card">
-        <h4>Volta + Couplet</h4>
-        <p>The <em>volta</em> — Italian for "turn" — arrives at or just before line 13. The argument pivots. The couplet (lines 13–14) delivers the conclusion: compressed, often epigrammatic.</p>
-        <p class="rhyme-scheme">GG</p>
-      </div>
-    </div>
+  <div class="sonnet-block">
+    <span class="annotated-line" onclick="toggleLine(this)">
+      Shall I compare thee to a summer's day?
+      <span class="line-annotation">The comparison is posed as a problem before it is asserted.</span>
+    </span>
+  </div>
+</section>
 
-    <p>Key terms — tap to define:</p>
-    <div class="vocab-strip">
-      <div class="vocab-chip" onclick="toggleVocab(this)">volta<div class="vocab-def">A rhetorical turn or shift in argument, typically at line 9 or 13</div></div>
-      <div class="vocab-chip" onclick="toggleVocab(this)">quatrain<div class="vocab-def">A four-line stanza, here rhyming ABAB</div></div>
-      <div class="vocab-chip" onclick="toggleVocab(this)">couplet<div class="vocab-def">Two consecutive rhyming lines that close the sonnet</div></div>
-      <div class="vocab-chip" onclick="toggleVocab(this)">blazon<div class="vocab-def">A poetic convention cataloguing the beloved's features — typically through idealised, hyperbolic comparison</div></div>
-    </div>
-    <p style="font-size:0.78rem; color:var(--muted); margin-top:4px;">↑ Four terms. These recur throughout the lesson.</p>
-  </section>
-
-  <!-- III. SONNET 18 — GUIDED -->
-  <section class="section">
-    <div class="section-marker">
-      <span class="section-number">III · Sonnet 18</span>
-      <span class="section-line"></span>
-      <span class="section-time">10 min</span>
-    </div>
-    <h2 class="section-heading">Sonnet 18 — <em>guided close reading</em></h2>
-    <p>Shakespeare opens with a comparison — and immediately dismantles it. By the end, the poem has made a radical claim: not love, not nature, but <em>poetry itself</em> is what preserves the beloved. Read each line, then tap to reveal the annotation.</p>
-
-    <p class="tap-hint">↓ Tap any line to annotate</p>
-
-    <div class="sonnet-block">
-      <span class="stanza-label">— first quatrain —</span>
-
-      <span class="annotated-line" onclick="toggleLine(this)">Shall I compare thee to a summer's day?
-        <span class="line-annotation">The opening question is rhetorical and self-aware. By framing the poem as a question, Shakespeare signals this is a <em>debate</em>, not simply a declaration. The comparison is announced before it is made — then almost immediately undercut.</span>
-      </span>
-      <span class="annotated-line" onclick="toggleLine(this)">Thou art more lovely and more temperate:
-        <span class="line-annotation">"More lovely" concedes summer's beauty; "more temperate" introduces a key distinction — the beloved has a constancy that summer lacks. The comparison is already failing on summer's terms.</span>
-      </span>
-      <span class="annotated-line" onclick="toggleLine(this)">Rough winds do shake the darling buds of May,
-        <span class="line-annotation">Summer destroys its own beauty. The alliteration in "darling... day" is decorative, but the imagery is destructive. The season cannot hold itself together.</span>
-      </span>
-      <span class="annotated-line" onclick="toggleLine(this)">And summer's lease hath all too short a date:
-        <span class="line-annotation"><strong>Metaphor:</strong> summer as a tenant on a legal lease. The register is unexpected — temporality is framed as a contractual, not emotional, problem. Nature owns nothing permanently.</span>
-      </span>
-
-      <span class="stanza-label">— second quatrain —</span>
-
-      <span class="annotated-line" onclick="toggleLine(this)">Sometime too hot the eye of heaven shines,
-        <span class="line-annotation">The sun — "eye of heaven" — is majestic but unreliable. The personification grants it grandeur only to show its inconstancy. The beloved, implicitly, does not squint or scorch.</span>
-      </span>
-      <span class="annotated-line" onclick="toggleLine(this)">And often is his gold complexion dimm'd;
-        <span class="line-annotation">The sun's "gold complexion" echoes blazon conventions for praising a lover's skin — but here it belongs to the sun, and even that fades. The poem quietly dismantles the praise-tradition it appears to use.</span>
-      </span>
-      <span class="annotated-line" onclick="toggleLine(this)">And every fair from fair sometime declines,
-        <span class="line-annotation">"Fair" used as both noun and adjective in a single line — all beautiful things diminish from their beauty. This is stated as universal law, not tragedy. The logic is building toward an alternative.</span>
-      </span>
-      <span class="annotated-line" onclick="toggleLine(this)">By chance, or nature's changing course untrimm'd;
-        <span class="line-annotation">Decay is either random ("chance") or structural ("nature's course"). Either way, the beloved cannot be preserved inside nature. The poem has now exhausted what nature can offer.</span>
-      </span>
-
-      <span class="volta-label">⟶ VOLTA</span>
-
-      <span class="annotated-line" onclick="toggleLine(this)">But thy eternal summer shall not fade,
-        <span class="line-annotation"><strong>Volta.</strong> "But" is the pivot. Eight lines have catalogued nature's failures — now the beloved escapes all of them. "Eternal summer" is deliberately paradoxical: summer is the very thing the poem has spent eight lines destroying.</span>
-      </span>
-      <span class="annotated-line" onclick="toggleLine(this)">Nor lose possession of that fair thou ow'st,
-        <span class="line-annotation">Legal language returns: "possession," "ow'st" (owest). Unlike summer, whose lease expires, the beloved <em>owns</em> their beauty. Ownership confers permanence.</span>
-      </span>
-      <span class="annotated-line" onclick="toggleLine(this)">Nor shall death brag thou wand'rest in his shade,
-        <span class="line-annotation">Death is personified — and mocked. It "brags." The poem refuses to grant death dignity or inevitability. This is unusual: most Elizabethan verse treats death as majestic and final.</span>
-      </span>
-      <span class="annotated-line" onclick="toggleLine(this)">When in eternal lines to time thou grow'st:
-        <span class="line-annotation">The mechanism of immortality is finally revealed: "eternal lines" — the poem itself. The beloved will not be preserved by love, memory, or nature, but by <em>writing</em>. A startling, almost arrogant claim.</span>
-      </span>
-
-      <span class="stanza-label">— couplet —</span>
-
-      <span class="annotated-line" onclick="toggleLine(this)">So long as men can breathe, or eyes can see,
-        <span class="line-annotation">Immortality is conditional on readership — it lasts as long as human civilisation does. This is either humble (it depends on others) or quietly grandiose (it assumes civilisation will last).</span>
-      </span>
-      <span class="annotated-line" onclick="toggleLine(this)">So long lives this, and this gives life to thee.
-        <span class="line-annotation">The poem refers to <em>itself</em> — "this." A recursive, self-fulfilling argument: the poem that promises immortality is the mechanism of it. Rhetorically, it cannot be disproved. The beloved is now subordinate to the poem.</span>
-      </span>
-    </div>
-  </section>
-
-  <!-- IV. BRIDGE TABLE -->
-  <section class="section">
-    <div class="section-marker">
-      <span class="section-number">IV · Bridge</span>
-      <span class="section-line"></span>
-      <span class="section-time">4 min</span>
-    </div>
-    <h2 class="section-heading">What to look for in Sonnet 130</h2>
-    <p>Before reading the second poem, use what you know about Sonnet 18 to set up the comparison. The right-hand column is partly blank — you'll complete it after your annotation task.</p>
-
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th>Element</th>
-          <th>Sonnet 18</th>
-          <th>Sonnet 130</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Rhetorical mode</td>
-          <td>Elevation — the beloved transcends nature</td>
-          <td class="blank">Your analysis →</td>
-        </tr>
-        <tr>
-          <td>Relationship to blazon</td>
-          <td>Uses the tradition — the beloved is compared to natural beauty</td>
-          <td class="blank">Your analysis →</td>
-        </tr>
-        <tr>
-          <td>The volta's function</td>
-          <td>Reveals the mechanism of preservation: poetry itself</td>
-          <td class="blank">Your analysis →</td>
-        </tr>
-        <tr>
-          <td>Claim about love</td>
-          <td>Love is preserved and made meaningful through art</td>
-          <td class="blank">Your analysis →</td>
-        </tr>
-        <tr>
-          <td>Target of critique</td>
-          <td>Time and mortality</td>
-          <td class="blank">Your analysis →</td>
-        </tr>
-      </tbody>
-    </table>
-    <p style="font-size:0.82rem; color:var(--muted); font-style:italic;">Fill in the blanks after the annotation task. You'll have everything you need.</p>
-  </section>
-
-  <!-- V. SONNET 130 — STUDENT ANNOTATED -->
-  <section class="section">
-    <div class="section-marker">
-      <span class="section-number">V · Sonnet 130</span>
-      <span class="section-line"></span>
-      <span class="section-time">10 min</span>
-    </div>
-    <h2 class="section-heading">Sonnet 130 — <em>your annotation</em></h2>
-    <p>This poem reads like a deliberate dismantling of everything Sonnet 18 does. Where 18 elevates, 130 refuses. But the couplet changes everything. Annotate each line in the field below it — focus on <strong>what the language does</strong>, not just what it means.</p>
-
-    <div class="student-section">
-      <div class="student-header">
-        <span class="student-badge">Individual task</span>
-        <p>Annotate below each line. Consider: word choice, tone, convention, structure, what changes at the volta.</p>
-      </div>
-      <div class="student-body">
-
-        <p class="annotation-prompt">— first quatrain —</p>
-
-        <div class="student-line-wrap">
-          <span class="student-line-text">My mistress' eyes are nothing like the sun;</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-        <div class="student-line-wrap">
-          <span class="student-line-text">Coral is far more red than her lips' red:</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-        <div class="student-line-wrap">
-          <span class="student-line-text">If snow be white, why then her breasts are dun;</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-        <div class="student-line-wrap">
-          <span class="student-line-text">If hairs be wires, black wires grow on her head.</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-
-        <p class="annotation-prompt">— second quatrain —</p>
-
-        <div class="student-line-wrap">
-          <span class="student-line-text">I have seen roses damasked, red and white,</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-        <div class="student-line-wrap">
-          <span class="student-line-text">But no such roses see I in her cheeks;</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-        <div class="student-line-wrap">
-          <span class="student-line-text">And in some perfumes is there more delight</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-        <div class="student-line-wrap">
-          <span class="student-line-text">Than in the breath that from my mistress reeks.</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-
-        <p class="annotation-prompt">— third quatrain —</p>
-
-        <div class="student-line-wrap">
-          <span class="student-line-text">I love to hear her speak, yet well I know</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-        <div class="student-line-wrap">
-          <span class="student-line-text">That music hath a far more pleasing sound;</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-        <div class="student-line-wrap">
-          <span class="student-line-text">I grant I never saw a goddess go;</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-        <div class="student-line-wrap">
-          <span class="student-line-text">My mistress, when she walks, treads on the ground.</span>
-          <textarea class="student-input" placeholder="Your annotation…" rows="2"></textarea>
-        </div>
-
-        <p class="annotation-prompt">— volta + couplet —</p>
-
-        <div class="student-line-wrap">
-          <span class="student-line-text">And yet, by heaven, I think my love as rare</span>
-          <textarea class="student-input" placeholder="What does the volta do here? How does 'rare' work?" rows="2"></textarea>
-        </div>
-        <div class="student-line-wrap">
-          <span class="student-line-text">As any she belied with false compare.</span>
-          <textarea class="student-input" placeholder="Who is the real target of critique? What does 'belied' do that 'praised' would not?" rows="2"></textarea>
-        </div>
-
-      </div>
-    </div>
-
-    <button class="reveal-btn" onclick="toggleTeacherNotes()">↓ Reveal teacher annotations</button>
-
-    <div class="teacher-notes-130 sonnet-block" id="teacherNotes130" style="margin-top:24px;">
-      <p style="font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; font-style:normal;">Teacher annotations — compare with your own</p>
-
-      <span class="annotated-line revealed">My mistress' eyes are nothing like the sun;
-        <span class="line-annotation">Immediate anti-blazon. The blazon tradition begins with the eyes — Shakespeare begins there too, but to <em>deny</em> the comparison rather than make it. The poem announces its method in line one. "Nothing like" is more absolute than "less than" — it refuses the scale entirely.</span>
-      </span>
-      <span class="annotated-line revealed">Coral is far more red than her lips' red:
-        <span class="line-annotation">Coral lips were a Petrarchan cliché. By invoking and rejecting it simultaneously, Shakespeare signals literary self-consciousness. "Her lips' red" — the repetition of "red" is slightly awkward, as if the description itself is resisting ornamentation.</span>
-      </span>
-      <span class="annotated-line revealed">If snow be white, why then her breasts are dun;
-        <span class="line-annotation">"Dun" — dull greyish-brown. Startlingly unglamorous. The conditional structure ("if... then") performs the logic of comparison precisely to show it failing. The poem is anatomising the blazon with the blazon's own tools.</span>
-      </span>
-      <span class="annotated-line revealed">If hairs be wires, black wires grow on her head.
-        <span class="line-annotation">Golden wire hair was a Petrarchan cliché (used to suggest radiance). Shakespeare applies the conceit literally and reverses it — her hair is dark, not gold, and "wires" without the shimmer sounds coarse. The convention is exposed as absurd when detached from its flattering purpose.</span>
-      </span>
-
-      <span class="stanza-label">— second quatrain —</span>
-
-      <span class="annotated-line revealed">I have seen roses damasked, red and white,
-        <span class="line-annotation">"Damasked" — richly patterned, ornate. The speaker knows beauty when he sees it; he is not ignorant or insensible. This matters: his refusal to apply these standards to his mistress is <em>deliberate</em>, not oblivious.</span>
-      </span>
-      <span class="annotated-line revealed">But no such roses see I in her cheeks;
-        <span class="line-annotation">Rosy cheeks: another blazon convention dismissed. The parallel structure of "I have seen... but no such" creates a calm, judicial tone — measured, not contemptuous. This is assessment, not cruelty.</span>
-      </span>
-      <span class="annotated-line revealed">And in some perfumes is there more delight
-        <span class="line-annotation">A gentle concession: perfume exists, beauty exists, elsewhere. The speaker is not denying that ideals are real — only that they don't describe <em>her</em>. The poem is separating idealisation from love.</span>
-      </span>
-      <span class="annotated-line revealed">Than in the breath that from my mistress reeks.
-        <span class="line-annotation">"Reeks" in Elizabethan English meant "emanates" — but even then carried unglamorous connotations. The choice is knowing: Shakespeare could have used "flows" or "comes." The deliberate roughness of the word is part of the poem's argument against ornament.</span>
-      </span>
-
-      <span class="stanza-label">— third quatrain —</span>
-
-      <span class="annotated-line revealed">I love to hear her speak, yet well I know
-        <span class="line-annotation">First explicit statement of love — hedged by "yet well I know." The speaker loves <em>in spite of</em> full knowledge of imperfection. This is a fundamentally different posture from Sonnet 18, where love is asserted as grounds for elevation.</span>
-      </span>
-      <span class="annotated-line revealed">That music hath a far more pleasing sound;
-        <span class="line-annotation">Her voice is not music. The admission is quiet, almost matter-of-fact. The poem is building a case for love without idealism — and making it look easy.</span>
-      </span>
-      <span class="annotated-line revealed">I grant I never saw a goddess go;
-        <span class="line-annotation">"I grant" — a rhetorical concession, as in legal argument. The speaker has never seen a goddess walk, so the comparison is impossible — and therefore meaningless. The poem quietly destroys the standards it refuses to apply.</span>
-      </span>
-      <span class="annotated-line revealed">My mistress, when she walks, treads on the ground.
-        <span class="line-annotation">The poem's most devastating — and most honest — line. She has weight. She is subject to gravity, to earth. This is not an insult; it is a refusal of the lie that idealisation requires. She is <em>human</em>.</span>
-      </span>
-
-      <span class="volta-label">⟶ VOLTA</span>
-
-      <span class="annotated-line revealed">And yet, by heaven, I think my love as rare
-        <span class="line-annotation"><strong>Volta.</strong> "And yet" — twelve lines of systematic refusal, now reversed. "By heaven" is an oath, unusual in this poem's judicial register; it signals genuine feeling breaking through controlled argument. "Rare" means both exceptional and uncommon — love that sees clearly is scarce.</span>
-      </span>
-      <span class="annotated-line revealed">As any she belied with false compare.
-        <span class="line-annotation">The attack lands here: those idealised blazon-women were <em>lied about</em>. "Belied" means misrepresented, falsified. The poem's real target is not the mistress but the tradition that falsifies love through comparison. The word "false" carries the weight of the whole poem's argument.</span>
-      </span>
-    </div>
-  </section>
-
-  <!-- VI. DISCUSSION -->
-  <section class="section">
-    <div class="section-marker">
-      <span class="section-number">VI · Discussion</span>
-      <span class="section-line"></span>
-      <span class="section-time">5 min</span>
-    </div>
-    <h2 class="section-heading">The two poems in dialogue</h2>
-    <p>Go back and complete the blank column in the comparison table. Then use one of these prompts to structure a brief spoken exchange.</p>
-
-    <div class="prompt-grid">
-      <div class="prompt-card">
-        <p>What does it mean to "immortalise" someone in a poem? Is that a gift — or a kind of possession?</p>
-        <span class="prompt-tag">Theme · Sonnet 18</span>
-      </div>
-      <div class="prompt-card">
-        <p>Is Sonnet 130 a love poem, a satirical poem, or both? Does the distinction matter?</p>
-        <span class="prompt-tag">Genre · Sonnet 130</span>
-      </div>
-      <div class="prompt-card">
-        <p>Which poem makes the stronger argument for love? Does strength of argument have anything to do with sincerity?</p>
-        <span class="prompt-tag">Rhetoric · Comparison</span>
-      </div>
-      <div class="prompt-card">
-        <p>In 130, Shakespeare attacks a poetic tradition. What does that tell us about the relationship between convention and authentic feeling?</p>
-        <span class="prompt-tag">Context · Intertextuality</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- VII. EXIT -->
-  <section class="section">
-    <div class="section-marker">
-      <span class="section-number">VII · Exit</span>
-      <span class="section-line"></span>
-      <span class="section-time">3 min</span>
-    </div>
-    <h2 class="section-heading">Return to the opening question</h2>
-    <p>Has reading the poems changed your answer? You have one minute to prepare a spoken response — no notes, no hedging.</p>
-
-    <div class="writing-prompt">
-      <p>"The most honest love poem is one that refuses to flatter." In light of Sonnets 18 and 130, do you agree?</p>
-      <span class="word-count">Spoken · 60 seconds · No notes</span>
-    </div>
-
-    <p style="margin-top:20px; color:var(--muted); font-size:0.9rem; font-style:italic;">The question is not which poem is better. The question is: what kind of love is each poem making possible — and which is more real?</p>
-  </section>
-
-  <footer class="lesson-footer">
-    <p>Deutsche Schule Prag · English · Year 12 · Shakespearean Sonnets</p>
-  </footer>
+<footer>
+  Deutsche Schule Prag · Year 12 · Shakespeare
+</footer>
 
 </div>
 
 <script>
-  // Scroll progress
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    document.getElementById('progressBar').style.width = pct + '%';
-  });
+let totalSeconds = 40 * 60;
+const pill = document.getElementById('timerPill');
 
-  // Countdown timer — 40 minutes
-  let totalSeconds = 40 * 60;
-  const pill = document.getElementById('timerPill');
-  const interval = setInterval(() => {
-    totalSeconds--;
-    if (totalSeconds < 0) { clearInterval(interval); pill.textContent = '00:00'; return; }
-    const m = Math.floor(totalSeconds / 60);
-    const s = totalSeconds % 60;
-    pill.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-    if (totalSeconds <= 300) pill.style.color = '#c0392b';
-    else if (totalSeconds <= 600) pill.style.color = '#d4af4a';
-    else pill.style.color = 'var(--gold)';
-  }, 1000);
+setInterval(() => {
+  totalSeconds--;
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+  pill.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}, 1000);
 
-  function toggleLine(el) { el.classList.toggle('revealed'); }
-
-  function toggleVocab(el) {
-    document.querySelectorAll('.vocab-chip').forEach(c => { if (c !== el) c.classList.remove('active'); });
-    el.classList.toggle('active');
-  }
-
-  document.addEventListener('click', e => {
-    if (!e.target.closest('.vocab-chip'))
-      document.querySelectorAll('.vocab-chip').forEach(c => c.classList.remove('active'));
-  });
-
-  function toggleTeacherNotes() {
-    const el = document.getElementById('teacherNotes130');
-    const btn = document.querySelector('.reveal-btn');
-    el.classList.toggle('visible');
-    btn.textContent = el.classList.contains('visible') ? '↑ Hide teacher annotations' : '↓ Reveal teacher annotations';
-  }
+function toggleLine(el) {
+  el.classList.toggle('revealed');
+}
 </script>
+
 </body>
 </html>
